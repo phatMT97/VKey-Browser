@@ -1,26 +1,31 @@
 {
   "manifest_version": 3,
   "name": "VKey Browser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Route VKey by website: default, English, or TSF compatibility mode.",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz/GsPm8HI9D5NRxul68Utv6pqYDRjzIoPcK0qEJgYKERw5whJ+cxqQhkWIGPrAZz4eo9SpOuabSxDVgTcXlC3Zw/IrPlT1pnRRts2ivlFD6QbzKBrU9dDrR0TB9CTsheVA5RRmNFInih6V/CfIF4uexbLnRb0epTgr4RFxrPQU0TxSOQSr9pFDFvAfWnLUgjJJMvzxFhkKXsr7dps0sgPmjqZT4YNr1bPHZBqyJMgwFB47d5t6TWyVby4NpNS2+pYukiWnDVigKJyjowPzFfIFVbk2sOOg7FQj+T5DTcB9WspLkrKD0bV9nQOe3Hznnz6ZrC0oeZNBF19Osk6uqM4QIDAQAB",
   "permissions": ["activeTab", "nativeMessaging", "storage", "tabs"],
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  },
   "background": {
-    "scripts": ["src/rules.js", "src/background.js"],
     "service_worker": "src/background.js"
   },
   "action": {
     "default_title": "VKey Browser",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
+    },
     "default_popup": "src/popup.html"
   },
   "options_ui": {
     "page": "src/options.html",
     "open_in_tab": true
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "browser@vkey.phatmt97.github.io",
-      "strict_min_version": "121.0"
-    }
   }
 }

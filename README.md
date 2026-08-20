@@ -36,9 +36,13 @@ trang hoặc phím gõ.
 
 ## Cài tạm trên Firefox
 
-1. Mở `about:debugging#/runtime/this-firefox`.
-2. Chọn **Load Temporary Add-on**.
-3. Chọn `manifest.json` trong repo này.
+Firefox chưa hỗ trợ `background.service_worker` của Manifest V3, nên cần build
+gói có `background.scripts` riêng:
+
+1. Chạy `npm run build:firefox` trong thư mục repo.
+2. Mở `about:debugging#/runtime/this-firefox`.
+3. Chọn **Load Temporary Add-on**.
+4. Chọn `dist/firefox/manifest.json`.
 
 Firefox sẽ gỡ temporary add-on sau khi khởi động lại; cần load lại cho đến khi
 có bản XPI được ký qua AMO.
@@ -55,7 +59,8 @@ Ví dụ: giữ VKey gốc ở V, để `google.com` là **Theo VKey** và đặ
 **English**. Chuyển qua lại hai tab sẽ tự đổi V → E → V. English chỉ là overlay
 tạm thời và không làm mất trạng thái V/E gốc.
 
-Nếu extension không kết nối, kiểm tra `VKeyBrowserHost.exe`, thoát/mở lại VKey,
+Popup hiển thị **Đã kết nối VKey** khi native host hoạt động. Nếu thấy **Chưa
+kết nối VKeyBrowserHost**, kiểm tra `VKeyBrowserHost.exe`, thoát/mở lại VKey,
 sau đó restart browser và reload extension. Hướng dẫn chi tiết nằm tại
 [VKey browser extension guide](https://github.com/phatMT97/VKey/blob/Main/docs/BROWSER_EXTENSION.md).
 

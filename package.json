@@ -1,7 +1,10 @@
 {
   "name": "vkey-browser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
-  "scripts": { "test": "node --test" },
+  "scripts": {
+    "build:firefox": "node scripts/build-firefox.js",
+    "test": "node --test"
+  },
   "license": "GPL-3.0-only"
 }

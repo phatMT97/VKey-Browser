@@ -11,6 +11,7 @@ let port = null;
 let reconnectTimer = null;
 let rules = [];
 let enabled = true;
+let nativeState = { status: "connecting", error: "" };
 
 function browserExe() {
   const ua = navigator.userAgent.toLowerCase();
@@ -24,15 +25,28 @@ function browserExe() {
 
 function connect() {
   if (port) return;
+  nativeState = { status: "connecting", error: "" };
   try {
     port = api.runtime.connectNative(HOST_NAME);
+    port.onMessage.addListener(() => {
+      nativeState = { status: "connected", error: "" };
+    });
     port.onDisconnect.addListener(() => {
+      const error = api.runtime.lastError;
+      nativeState = {
+        status: "error",
+        error: error && error.message ? error.message : "Native host disconnected"
+      };
       port = null;
       clearTimeout(reconnectTimer);
       reconnectTimer = setTimeout(connect, 2000);
     });
     publishActiveContext();
-  } catch (_) {
+  } catch (error) {
+    nativeState = {
+      status: "error",
+      error: error && error.message ? error.message : String(error)
+    };
     port = null;
     clearTimeout(reconnectTimer);
     reconnectTimer = setTimeout(connect, 5000);
@@ -76,6 +90,11 @@ api.tabs.onUpdated.addListener((_tabId, change) => {
   if (change.url || change.status === "complete") publishActiveContext();
 });
 api.windows.onFocusChanged.addListener(publishActiveContext);
+api.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  if (message && message.type === "get-native-status") {
+    sendResponse(nativeState);
+  }
+});
 api.storage.onChanged.addListener(async (changes, area) => {
   if (area === "local" && (changes.enabled || changes.rules)) {
     await loadSettings();

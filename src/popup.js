@@ -7,6 +7,26 @@ function updateEnabledState(enabled) {
   document.querySelector("#status").textContent = enabled ? "" : "Đang tạm dừng";
 }
 
+async function updateNativeStatus() {
+  const element = document.querySelector("#connection");
+  try {
+    const state = await api.runtime.sendMessage({ type: "get-native-status" });
+    element.dataset.state = state && state.status ? state.status : "error";
+    if (state && state.status === "connected") {
+      element.textContent = "Đã kết nối VKey";
+    } else if (state && state.status === "connecting") {
+      element.textContent = "Đang kết nối VKey…";
+    } else {
+      element.textContent = "Chưa kết nối VKeyBrowserHost";
+      element.title = state && state.error ? state.error : "";
+    }
+  } catch (error) {
+    element.dataset.state = "error";
+    element.textContent = "Không đọc được trạng thái kết nối";
+    element.title = error && error.message ? error.message : String(error);
+  }
+}
+
 async function init() {
   const [tab] = await api.tabs.query({ active: true, currentWindow: true });
   hostname = VKeyRules.hostnameFromUrl(tab && tab.url);
@@ -17,6 +37,8 @@ async function init() {
   document.querySelector("#enabled").checked = enabled;
   document.querySelector(`input[value="${selected}"]`).checked = true;
   updateEnabledState(enabled);
+  await updateNativeStatus();
+  setTimeout(updateNativeStatus, 500);
 }
 
 document.querySelector("#enabled").addEventListener("change", async (event) => {
