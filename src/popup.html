@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VKey Browser</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="popup">
+  <main>
+    <p class="eyebrow">VKEY BROWSER</p>
+    <h1 id="hostname">Trang hiện tại</h1>
+    <fieldset id="routes">
+      <label><input type="radio" name="route" value="default"> Theo VKey</label>
+      <label><input type="radio" name="route" value="english"> Luôn gõ English</label>
+      <label><input type="radio" name="route" value="tsf"> TSF tương thích</label>
+    </fieldset>
+    <p id="status" role="status"></p>
+    <button id="options" type="button">Quản lý tất cả tên miền</button>
+  </main>
+  <script src="rules.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

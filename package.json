@@ -1,0 +1,7 @@
+{
+  "name": "vkey-browser",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": { "test": "node --test" },
+  "license": "GPL-3.0-only"
+}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VKey Browser — Tên miền</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="options">
+  <main>
+    <p class="eyebrow">VKEY BROWSER</p>
+    <h1>Điều hướng theo tên miền</h1>
+    <p class="lede">English tạm bỏ xử lý tiếng Việt. TSF dùng composition tương thích cho editor/forum bị dính chữ.</p>
+    <form id="add-form">
+      <input id="hostname-input" type="text" inputmode="url" placeholder="example.com" required>
+      <select id="route-input">
+        <option value="english">English</option>
+        <option value="tsf">TSF tương thích</option>
+      </select>
+      <button type="submit">Thêm</button>
+    </form>
+    <p id="status" role="status"></p>
+    <div id="rules" class="rule-list"></div>
+    <aside>
+      Extension chỉ nhận hostname của tab đã mở. Trình duyệt không cho extension đọc nội dung đang gõ trong thanh địa chỉ.
+    </aside>
+  </main>
+  <script src="rules.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
