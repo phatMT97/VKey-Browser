@@ -9,7 +9,8 @@ Routes:
 - **Default** — keep VKey's normal per-app behavior.
 - **English** — temporarily bypass Vietnamese processing on this domain.
 - **TSF compatibility** — use TSF composition on editors/forums where hook
-  replacement can duplicate or attach text after emoji (VKey issue #92).
+  replacement can duplicate or attach text after emoji (VKey issue #92). This
+  requires TSF application support to be enabled in VKey.
 
 ## Development
 
