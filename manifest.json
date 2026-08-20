@@ -6,6 +6,7 @@
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz/GsPm8HI9D5NRxul68Utv6pqYDRjzIoPcK0qEJgYKERw5whJ+cxqQhkWIGPrAZz4eo9SpOuabSxDVgTcXlC3Zw/IrPlT1pnRRts2ivlFD6QbzKBrU9dDrR0TB9CTsheVA5RRmNFInih6V/CfIF4uexbLnRb0epTgr4RFxrPQU0TxSOQSr9pFDFvAfWnLUgjJJMvzxFhkKXsr7dps0sgPmjqZT4YNr1bPHZBqyJMgwFB47d5t6TWyVby4NpNS2+pYukiWnDVigKJyjowPzFfIFVbk2sOOg7FQj+T5DTcB9WspLkrKD0bV9nQOe3Hznnz6ZrC0oeZNBF19Osk6uqM4QIDAQAB",
   "permissions": ["activeTab", "nativeMessaging", "storage", "tabs"],
   "background": {
+    "scripts": ["src/rules.js", "src/background.js"],
     "service_worker": "src/background.js"
   },
   "action": {

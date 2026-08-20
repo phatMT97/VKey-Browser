@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only
-importScripts("rules.js");
+// Chromium MV3 runs this as a service worker; Firefox MV3 runs it as an event
+// page and loads rules.js first through background.scripts.
+if (typeof importScripts === "function" && typeof VKeyRules === "undefined") {
+  importScripts("rules.js");
+}
 
 const api = globalThis.browser || globalThis.chrome;
 const HOST_NAME = "io.github.phatmt97.vkey";
