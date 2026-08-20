@@ -7,13 +7,17 @@ h1 { margin: 4px 0 16px; font-size: 22px; overflow-wrap: anywhere; }
 .lede { max-width: 620px; color: #b8c6bd; }
 fieldset { display: grid; gap: 8px; padding: 0; border: 0; }
 label, .rule { border: 1px solid #344039; border-radius: 10px; padding: 10px 12px; }
+.master-toggle { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.master-toggle span { display: grid; gap: 2px; }
+.master-toggle small { color: #b8c6bd; }
+.master-toggle input { width: 20px; height: 20px; flex: 0 0 auto; padding: 0; accent-color: #75e09b; }
 button, input, select { border: 1px solid #445249; border-radius: 8px; padding: 9px 12px; font: inherit; }
 button { cursor: pointer; background: #75e09b; color: #08110b; font-weight: 700; }
 #options { width: 100%; margin-top: 12px; background: transparent; color: #edf5ef; }
 #add-form { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; margin: 24px 0 8px; }
 .rule-list { display: grid; gap: 8px; margin-top: 20px; }
 .rule { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 12px; }
-.rule strong { color: #75e09b; }
+.rule select { color: #edf5ef; background: #101412; }
 .rule button { padding: 5px 9px; background: transparent; color: #edf5ef; }
 aside { margin-top: 28px; padding: 14px; border-left: 3px solid #75e09b; color: #b8c6bd; }
 #status { min-height: 20px; color: #75e09b; }

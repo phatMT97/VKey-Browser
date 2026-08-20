@@ -32,6 +32,10 @@
     return best ? best.route : "default";
   }
 
+  function routeForContext(enabled, hostname, rules) {
+    return enabled ? routeForHostname(hostname, rules) : "default";
+  }
+
   function hostnameFromUrl(value) {
     try {
       const url = new URL(value);
@@ -43,7 +47,14 @@
     }
   }
 
-  const api = { ROUTES, normalizeHostname, normalizeRules, routeForHostname, hostnameFromUrl };
+  const api = {
+    ROUTES,
+    normalizeHostname,
+    normalizeRules,
+    routeForHostname,
+    routeForContext,
+    hostnameFromUrl
+  };
   root.VKeyRules = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

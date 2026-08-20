@@ -2,16 +2,29 @@
 const api = globalThis.browser || globalThis.chrome;
 let hostname = "";
 
+function updateEnabledState(enabled) {
+  document.querySelector("#routes").disabled = !enabled || !hostname;
+  document.querySelector("#status").textContent = enabled ? "" : "Đang tạm dừng";
+}
+
 async function init() {
   const [tab] = await api.tabs.query({ active: true, currentWindow: true });
   hostname = VKeyRules.hostnameFromUrl(tab && tab.url);
   document.querySelector("#hostname").textContent = hostname || "Trang nội bộ trình duyệt";
-  const { rules = [] } = await api.storage.local.get({ rules: [] });
+  const { enabled = true, rules = [] } = await api.storage.local.get({ enabled: true, rules: [] });
   const direct = VKeyRules.normalizeRules(rules).find((rule) => rule.hostname === hostname);
   const selected = direct ? direct.route : "default";
+  document.querySelector("#enabled").checked = enabled;
   document.querySelector(`input[value="${selected}"]`).checked = true;
-  document.querySelector("#routes").disabled = !hostname;
+  updateEnabledState(enabled);
 }
+
+document.querySelector("#enabled").addEventListener("change", async (event) => {
+  const enabled = event.target.checked;
+  await api.storage.local.set({ enabled });
+  updateEnabledState(enabled);
+  if (enabled) document.querySelector("#status").textContent = "Đã bật";
+});
 
 document.querySelector("#routes").addEventListener("change", async (event) => {
   const { rules = [] } = await api.storage.local.get({ rules: [] });

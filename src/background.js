@@ -10,6 +10,7 @@ const HOST_NAME = "io.github.phatmt97.vkey";
 let port = null;
 let reconnectTimer = null;
 let rules = [];
+let enabled = true;
 
 function browserExe() {
   const ua = navigator.userAgent.toLowerCase();
@@ -54,7 +55,7 @@ async function publishActiveContext() {
       protocol: 1,
       browser: browserExe(),
       hostname,
-      route: focused ? VKeyRules.routeForHostname(hostname, rules) : "default",
+      route: focused ? VKeyRules.routeForContext(enabled, hostname, rules) : "default",
       focused
     });
   } catch (_) {
@@ -62,24 +63,25 @@ async function publishActiveContext() {
   }
 }
 
-async function loadRules() {
-  const stored = await api.storage.local.get({ rules: [] });
+async function loadSettings() {
+  const stored = await api.storage.local.get({ enabled: true, rules: [] });
+  enabled = stored.enabled !== false;
   rules = VKeyRules.normalizeRules(stored.rules);
 }
 
-api.runtime.onInstalled.addListener(async () => { await loadRules(); connect(); });
-api.runtime.onStartup.addListener(async () => { await loadRules(); connect(); });
+api.runtime.onInstalled.addListener(async () => { await loadSettings(); connect(); });
+api.runtime.onStartup.addListener(async () => { await loadSettings(); connect(); });
 api.tabs.onActivated.addListener(publishActiveContext);
 api.tabs.onUpdated.addListener((_tabId, change) => {
   if (change.url || change.status === "complete") publishActiveContext();
 });
 api.windows.onFocusChanged.addListener(publishActiveContext);
 api.storage.onChanged.addListener(async (changes, area) => {
-  if (area === "local" && changes.rules) {
-    rules = VKeyRules.normalizeRules(changes.rules.newValue);
+  if (area === "local" && (changes.enabled || changes.rules)) {
+    await loadSettings();
     await publishActiveContext();
   }
 });
 
-loadRules().then(connect);
+loadSettings().then(connect);
 setInterval(publishActiveContext, 2000);

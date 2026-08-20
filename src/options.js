@@ -2,6 +2,10 @@
 const api = globalThis.browser || globalThis.chrome;
 let rules = [];
 
+function updateEnabledState(enabled) {
+  document.querySelector("#enabled").checked = enabled;
+}
+
 async function save() {
   rules = VKeyRules.normalizeRules(rules);
   await api.storage.local.set({ rules });
@@ -16,8 +20,22 @@ function render() {
     row.className = "rule";
     const text = document.createElement("span");
     text.textContent = rule.hostname;
-    const badge = document.createElement("strong");
-    badge.textContent = rule.route === "tsf" ? "TSF" : "English";
+    const route = document.createElement("select");
+    route.setAttribute("aria-label", `Chế độ cho ${rule.hostname}`);
+    for (const [value, label] of [["english", "English"], ["tsf", "TSF tương thích"]]) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      option.selected = rule.route === value;
+      route.append(option);
+    }
+    route.addEventListener("change", async () => {
+      rules = rules.map((item) => item.hostname === rule.hostname
+        ? { ...item, route: route.value }
+        : item);
+      await save();
+      document.querySelector("#status").textContent = "Đã cập nhật";
+    });
     const remove = document.createElement("button");
     remove.type = "button";
     remove.textContent = "Xóa";
@@ -25,7 +43,7 @@ function render() {
       rules = rules.filter((item) => item.hostname !== rule.hostname);
       await save();
     });
-    row.append(text, badge, remove);
+    row.append(text, route, remove);
     root.append(row);
   }
   if (!rules.length) root.textContent = "Chưa có quy tắc nào.";
@@ -45,7 +63,15 @@ document.querySelector("#add-form").addEventListener("submit", async (event) => 
   document.querySelector("#status").textContent = "Đã lưu";
 });
 
-api.storage.local.get({ rules: [] }).then((stored) => {
+document.querySelector("#enabled").addEventListener("change", async (event) => {
+  const enabled = event.target.checked;
+  await api.storage.local.set({ enabled });
+  updateEnabledState(enabled);
+  document.querySelector("#status").textContent = enabled ? "Đã bật" : "Đang tạm dừng";
+});
+
+api.storage.local.get({ enabled: true, rules: [] }).then((stored) => {
   rules = VKeyRules.normalizeRules(stored.rules);
   render();
+  updateEnabledState(stored.enabled !== false);
 });
