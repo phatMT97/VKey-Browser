@@ -22,7 +22,7 @@ function render() {
     text.textContent = rule.hostname;
     const route = document.createElement("select");
     route.setAttribute("aria-label", `Chế độ cho ${rule.hostname}`);
-    for (const [value, label] of [["english", "English"], ["tsf", "TSF tương thích"]]) {
+    for (const [value, label] of [["english", "English (hard)"], ["tsf", "TSF tương thích (hard)"]]) {
       const option = document.createElement("option");
       option.value = value;
       option.textContent = label;

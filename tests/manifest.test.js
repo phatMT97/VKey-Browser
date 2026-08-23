@@ -12,6 +12,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "u
 
 test("root manifest is a valid Chromium MV3 package with VKey icons", () => {
   assert.equal(manifest.manifest_version, 3);
+  assert.equal(manifest.version, require("../package.json").version);
   assert.equal(manifest.background.service_worker, "src/background.js");
   assert.equal("scripts" in manifest.background, false);
   assert.equal("browser_specific_settings" in manifest, false);

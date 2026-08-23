@@ -10,7 +10,7 @@
   <main>
     <p class="eyebrow">VKEY BROWSER</p>
     <h1>Điều hướng theo tên miền</h1>
-    <p class="lede">English tạm bỏ xử lý tiếng Việt. TSF dùng composition không gạch chân cho editor/forum bị dính chữ và cần bật hỗ trợ ứng dụng TSF trong VKey.</p>
+    <p class="lede">V/E được tự nhớ theo hotkey trong phiên browser. Rule cấu hình bên dưới là hard override; English khóa E, còn TSF cố định engine tương thích cho website.</p>
     <label class="master-toggle">
       <span>
         <strong>Bật điều hướng theo website</strong>
@@ -21,15 +21,15 @@
     <form id="add-form">
       <input id="hostname-input" type="text" inputmode="url" placeholder="example.com" required>
       <select id="route-input">
-        <option value="english">English</option>
-        <option value="tsf">TSF tương thích</option>
+        <option value="english">English (hard)</option>
+        <option value="tsf">TSF tương thích (hard)</option>
       </select>
       <button type="submit">Thêm</button>
     </form>
     <p id="status" role="status"></p>
     <div id="rules" class="rule-list"></div>
     <aside>
-      Extension chỉ nhận hostname của tab đã mở. Trình duyệt không cho extension đọc nội dung đang gõ trong thanh địa chỉ.
+      Trạng thái V/E học từ hotkey chỉ nằm trong phiên và tự xóa khi đóng/restart browser. Rule hard vẫn được giữ cho lần mở sau.
     </aside>
   </main>
   <script src="rules.js"></script>

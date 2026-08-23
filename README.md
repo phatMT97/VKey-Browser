@@ -4,24 +4,29 @@
 > Đây là tính năng thử nghiệm, hiện chưa phát hành trên Chrome Web Store hoặc
 > Firefox AMO.
 
-Extension đồng hành cho [VKey](https://github.com/phatMT97/VKey), cho phép tự
-chuyển chế độ theo website. Extension chỉ gửi hostname của tab đang focus và
-route đã resolve tới native host; không gửi URL đầy đủ, path, query, nội dung
-trang hoặc phím gõ.
+Extension đồng hành cho [VKey](https://github.com/phatMT97/VKey), tự nhớ chế độ
+V/E theo website trong phiên browser và cho phép đặt rule hard. Extension chỉ
+trao đổi hostname, route cấu hình và kết quả V/E sau hotkey với native host;
+không gửi URL đầy đủ, path, query, nội dung trang hay phím đã gõ.
 
 ## Các chế độ
 
-- **Theo VKey** — dùng trạng thái và cấu hình VKey bình thường.
-- **English** — tạm bỏ xử lý tiếng Việt trên tên miền này.
-- **TSF tương thích** — dùng TSF trên editor/forum bị dính chữ sau emoji
+- **Tự nhớ V/E theo hotkey** — khi đổi V/E bằng hotkey VKey, extension nhớ kết
+  quả cho hostname và tự khôi phục khi quay lại trong cùng phiên browser.
+- **English (hard)** — luôn bỏ xử lý tiếng Việt và không cho hotkey thay đổi
+  trạng thái đã nhớ của tên miền này.
+- **TSF tương thích (hard)** — luôn dùng TSF trên editor/forum bị dính chữ sau emoji
   ([VKey #92](https://github.com/phatMT97/VKey/issues/92)); cần bật hỗ trợ ứng
   dụng TSF trong VKey.
+
+Trạng thái V/E tự học được lưu bằng `storage.session`, nên tự xóa khi browser
+đóng/restart. Rule hard nằm trong `storage.local` và vẫn còn ở lần mở sau.
 
 ## Yêu cầu
 
 - Windows 10/11.
-- Một bản VKey có `VKeyBrowserHost.exe` nằm cạnh `VKey.exe` hoặc
-  `VKeyClassic.exe`.
+- Một bản VKey hỗ trợ native protocol 2, có `VKeyBrowserHost.exe` nằm cạnh
+  `VKey.exe` hoặc `VKeyClassic.exe`.
 - Chạy VKey ít nhất một lần sau khi đặt các file cạnh nhau để đăng ký native
   messaging host.
 
@@ -49,15 +54,22 @@ có bản XPI được ký qua AMO.
 
 ## Sử dụng
 
-Mở website, bấm icon VKey Browser và chọn route. Rule tự cập nhật khi chuyển
-tab, navigation hoặc đổi cửa sổ.
+Mở website rồi dùng hotkey V/E của VKey như bình thường. Extension nhận trạng
+thái kết quả từ native host, nhớ nó cho hostname hiện tại và tự áp dụng khi
+chuyển tab, navigation hoặc đổi cửa sổ.
+
+Trong popup, chọn **Luôn gõ English (hard)** hoặc **TSF tương thích (hard)** khi
+muốn cấu hình cố định. Chọn **Tự nhớ V/E theo hotkey** để bỏ rule hard và quay
+lại chế độ tự học trong phiên.
 
 Công tắc **Bật điều hướng theo website** được bật mặc định. Tắt công tắc để tạm
-ngừng áp dụng mọi rule mà không xóa cấu hình; VKey sẽ trở về hành vi bình thường.
+ngừng cả trạng thái theo phiên lẫn rule hard mà không xóa chúng; VKey sẽ trở về
+hành vi bình thường.
 
-Ví dụ: giữ VKey gốc ở V, để `google.com` là **Theo VKey** và đặt `voz.vn` là
-**English**. Chuyển qua lại hai tab sẽ tự đổi V → E → V. English chỉ là overlay
-tạm thời và không làm mất trạng thái V/E gốc.
+Ví dụ: tại `google.com` nhấn hotkey để chuyển sang V, tại `github.com` nhấn
+hotkey để chuyển sang E. Trong phiên hiện tại, chuyển qua lại hai tab sẽ tự đổi
+V → E → V. Nếu đặt `voz.vn` là **English (hard)** thì hostname đó luôn ở E và
+không ghi đè trạng thái V/E đã học.
 
 Popup hiển thị **Đã kết nối VKey** khi native host hoạt động. Nếu thấy **Chưa
 kết nối VKeyBrowserHost**, kiểm tra `VKeyBrowserHost.exe`, thoát/mở lại VKey,
@@ -75,6 +87,30 @@ Chromium development ID: `ccmggbcabaknpjielbiioolpfnpfgkbi`.
 Firefox ID: `browser@vkey.phatmt97.github.io`.
 
 Run tests with `npm test` (no dependencies are installed).
+
+### Native messaging protocol 2
+
+Context extension gửi cho host có thêm `mode`, tách khỏi `route` hard:
+
+```json
+{"protocol":2,"browser":"chrome.exe","hostname":"example.com","route":"default","mode":"vietnamese","focused":true}
+```
+
+- `route`: `default`, `english` hoặc `tsf`; lấy từ rule hard trong
+  `storage.local`.
+- `mode`: `default`, `vietnamese` hoặc `english`; lấy từ trạng thái hostname
+  trong `storage.session`.
+
+Sau khi hotkey V/E được chấp nhận, host gửi event về đúng kết nối browser:
+
+```json
+{"protocol":2,"event":"mode-changed","hostname":"example.com","mode":"english"}
+```
+
+Host phải gắn event với hostname đang focus tại thời điểm hotkey được nhận để
+việc đổi tab ngay sau đó không ghi nhầm website. Extension chỉ ghi event khi
+routing đang bật và hostname không bị rule English hard khóa. Ack thông thường
+như `{"ok":true}` không làm thay đổi trạng thái đã nhớ.
 
 ## Giới hạn đã biết
 

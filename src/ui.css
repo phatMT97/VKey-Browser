@@ -14,6 +14,7 @@ label, .rule { border: 1px solid #344039; border-radius: 10px; padding: 10px 12p
 .connection { margin: 0 0 14px; color: #b8c6bd; font-size: 12px; }
 .connection[data-state="connected"] { color: #75e09b; }
 .connection[data-state="error"] { color: #ff9a9a; }
+.remembered { margin: 10px 0 0; color: #b8c6bd; font-size: 12px; }
 button, input, select { border: 1px solid #445249; border-radius: 8px; padding: 9px 12px; font: inherit; }
 button { cursor: pointer; background: #75e09b; color: #08110b; font-weight: 700; }
 #options { width: 100%; margin-top: 12px; background: transparent; color: #edf5ef; }
