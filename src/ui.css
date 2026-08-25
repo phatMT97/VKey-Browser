@@ -1,28 +1,265 @@
-:root { color-scheme: light dark; font: 14px/1.45 system-ui, sans-serif; }
-body { margin: 0; background: #101412; color: #edf5ef; }
-main { max-width: 760px; margin: auto; padding: 28px; }
-.popup main { width: 290px; padding: 20px; }
-.eyebrow { color: #75e09b; font-size: 11px; font-weight: 800; letter-spacing: .18em; }
-h1 { margin: 4px 0 16px; font-size: 22px; overflow-wrap: anywhere; }
-.lede { max-width: 620px; color: #b8c6bd; }
-fieldset { display: grid; gap: 8px; padding: 0; border: 0; }
-label, .rule { border: 1px solid #344039; border-radius: 10px; padding: 10px 12px; }
-.master-toggle { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
-.master-toggle span { display: grid; gap: 2px; }
-.master-toggle small { color: #b8c6bd; }
-.master-toggle input { width: 20px; height: 20px; flex: 0 0 auto; padding: 0; accent-color: #75e09b; }
-.connection { margin: 0 0 14px; color: #b8c6bd; font-size: 12px; }
-.connection[data-state="connected"] { color: #75e09b; }
-.connection[data-state="error"] { color: #ff9a9a; }
-.remembered { margin: 10px 0 0; color: #b8c6bd; font-size: 12px; }
-button, input, select { border: 1px solid #445249; border-radius: 8px; padding: 9px 12px; font: inherit; }
-button { cursor: pointer; background: #75e09b; color: #08110b; font-weight: 700; }
-#options { width: 100%; margin-top: 12px; background: transparent; color: #edf5ef; }
-#add-form { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; margin: 24px 0 8px; }
-.rule-list { display: grid; gap: 8px; margin-top: 20px; }
-.rule { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 12px; }
-.rule select { color: #edf5ef; background: #101412; }
-.rule button { padding: 5px 9px; background: transparent; color: #edf5ef; }
-aside { margin-top: 28px; padding: 14px; border-left: 3px solid #75e09b; color: #b8c6bd; }
-#status { min-height: 20px; color: #75e09b; }
-@media (max-width: 560px) { #add-form { grid-template-columns: 1fr; } }
+:root {
+  color-scheme: dark;
+  --brand-navy: #222b48;
+  --brand-coral: #fe5a46;
+  --brand-coral-hover: #ff6b57;
+  --page: #111626;
+  --surface: #182039;
+  --surface-strong: #202a45;
+  --text: #f3f5fb;
+  --text-muted: #aab3c5;
+  --border: #36415f;
+  --accent-soft: rgb(254 90 70 / 0.12);
+  --accent-text: #ff806e;
+  --accent-ink: #202842;
+  --danger: #ff9a9a;
+  font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+}
+
+main {
+  max-width: 760px;
+  margin: auto;
+  padding: 28px;
+}
+
+.popup main {
+  width: 304px;
+  padding: 20px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--brand-coral);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+h1 {
+  margin: 4px 0 16px;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.lede {
+  max-width: 620px;
+  color: var(--text-muted);
+}
+
+fieldset {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+}
+
+label,
+.rule {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 10px 12px;
+}
+
+#routes label {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+#routes label:hover {
+  border-color: var(--brand-coral);
+  background: var(--surface-strong);
+}
+
+#routes label:has(input:checked) {
+  border-color: var(--brand-coral);
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--brand-coral);
+}
+
+.master-toggle {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.master-toggle span {
+  display: grid;
+  gap: 2px;
+}
+
+.master-toggle small {
+  color: var(--text-muted);
+}
+
+.master-toggle input {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--brand-coral);
+}
+
+.connection {
+  margin: 0 0 14px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.connection[data-state="connected"] {
+  color: var(--accent-text);
+}
+
+.connection[data-state="error"] {
+  color: var(--danger);
+}
+
+.remembered {
+  margin: 10px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+button,
+input,
+select {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border-color: var(--brand-coral);
+  background: var(--brand-coral);
+  color: var(--accent-ink);
+  font-weight: 800;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+button:hover {
+  border-color: var(--brand-coral-hover);
+  background: var(--brand-coral-hover);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:focus-visible,
+input:not([type="checkbox"]):not([type="radio"]):focus-visible,
+select:focus-visible,
+label:has(input:focus-visible) {
+  outline: 3px solid rgb(254 90 70 / 0.42);
+  outline-offset: 2px;
+}
+
+#options {
+  width: 100%;
+  margin-top: 12px;
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+#options:hover {
+  border-color: var(--brand-coral);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+#add-form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  margin: 24px 0 8px;
+}
+
+#add-form input,
+#add-form select {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.rule-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.rule {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.rule select {
+  background: var(--page);
+  color: var(--text);
+}
+
+.rule button {
+  min-height: 44px;
+  padding: 5px 9px;
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+.rule button:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+aside {
+  margin-top: 28px;
+  border-left: 3px solid var(--brand-coral);
+  background: var(--accent-soft);
+  padding: 14px;
+  color: var(--text-muted);
+}
+
+#status {
+  min-height: 20px;
+  color: var(--accent-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 560px) {
+  #add-form {
+    grid-template-columns: 1fr;
+  }
+}
