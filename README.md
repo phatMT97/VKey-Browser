@@ -68,7 +68,7 @@ hành vi bình thường.
 
 Ví dụ: tại `google.com` nhấn hotkey để chuyển sang V, tại `github.com` nhấn
 hotkey để chuyển sang E. Trong phiên hiện tại, chuyển qua lại hai tab sẽ tự đổi
-V → E → V. Nếu đặt `voz.vn` là **English (hard)** thì hostname đó luôn ở E và
+V → E → V. Nếu đặt `facebook.com` là **English (hard)** thì hostname đó luôn ở E và
 không ghi đè trạng thái V/E đã học.
 
 Popup hiển thị **Đã kết nối VKey** khi native host hoạt động. Nếu thấy **Chưa
